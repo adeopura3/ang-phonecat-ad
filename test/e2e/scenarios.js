@@ -38,15 +38,34 @@ describe('PhoneCat Application', function() {
       
     });
   
-  it ("should show the title based on the text currently in the search filter", function(){
-    query.clear();
-    expect(browser.getTitle()).toMatch(/Google Phone Gallery:\s*$/);
-    
-    query.clear();
-    query.sendKeys('motorola');
-    expect(browser.getTitle()).toMatch(/Google Phone Gallery: motorola$/);
-  });
-    
+  it ("should show the phones based on the chosen sort order", function(){
+      // by default we have 3 phones
+      var phoneNameColumn = element.all(by.repeater('phone in phones').column('phone.name'));
+      
+      function getNames() {
+        // returns an array with the names as present in each
+        // of the phone name columns
+        return phoneNameColumn.map(function(elm) {
+          return elm.getText();
+        });
+      }
+      
+      element(by.model('orderProp')).element(by.css('option[value="age"]')).click();
+
+      expect(getNames()).toEqual([
+        "Motorola XOOM\u2122 with Wi-Fi",
+        "Nexus S",
+        "MOTOROLA XOOM\u2122"
+      ]);
+
+      element(by.model('orderProp')).element(by.css('option[value="name"]')).click();
+
+      expect(getNames()).toEqual([
+        "MOTOROLA XOOM\u2122",
+        "Motorola XOOM\u2122 with Wi-Fi",
+        "Nexus S"
+      ]);
+    });
   
   });
 
