@@ -17,7 +17,7 @@ describe('PhoneCat Application', function() {
   
   it ("should show only the filtered phones as user types into search box", function(){
       // by default we have 3 phones
-      expect(phoneList.count()).toBe(3);
+      expect(phoneList.count()).toBe(20);
       
       // send query
       query.clear();
@@ -50,11 +50,13 @@ describe('PhoneCat Application', function() {
         });
       }
       
+      query.clear();
+      query.sendKeys('Motorola xoom');
+      
       element(by.model('orderProp')).element(by.css('option[value="age"]')).click();
 
       expect(getNames()).toEqual([
         "Motorola XOOM\u2122 with Wi-Fi",
-        "Nexus S",
         "MOTOROLA XOOM\u2122"
       ]);
 
@@ -62,9 +64,18 @@ describe('PhoneCat Application', function() {
 
       expect(getNames()).toEqual([
         "MOTOROLA XOOM\u2122",
-        "Motorola XOOM\u2122 with Wi-Fi",
-        "Nexus S"
+        "Motorola XOOM\u2122 with Wi-Fi"
       ]);
+    });
+  
+  it('should show phone specific links', function() {
+      var query = element(by.model('query'));
+      query.sendKeys('nexus');
+      element(by.css('.phones li a')).click();
+      browser.getLocationAbsUrl().then(function(url) {
+        // relative
+        expect(url).toEqual('/phones/nexus-s');
+      });
     });
   
   });
