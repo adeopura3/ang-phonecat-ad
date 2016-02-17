@@ -2,18 +2,13 @@
 
 /* Controllers */
 
-phonecatApp.controller('PhoneListCtrl', function($scope) {
-  $scope.phones = [
-    {'name': 'Nexus S',
-     'snippet': 'Fast just got faster with Nexus S.',
-     'age': 2},
-    {'name': 'Motorola XOOM™ with Wi-Fi',
-     'snippet': 'The Next, Next Generation tablet.',
-     'age': 1},
-    {'name': 'MOTOROLA XOOM™',
-     'snippet': 'The Next, Next Generation tablet.',
-     'age': 3}
-  ];
+phonecatApp.controller('PhoneListCtrl', ['$scope', '$http', function($scope, $http) {
+  // Get all the phones, they are stored in a json file
+  $http.get('phones/phones.json').success(function(phoneList) {
+    // this is an aync call so we need to wait for success
+    // callback before we proceed
+    $scope.phones = phoneList;
+  });
 
   $scope.orderProp = 'age';
-});
+}]);
