@@ -78,6 +78,13 @@ describe('PhoneCat Application', function() {
       });
     });
   
+  it('should redirect index.html to index.html#/phones', function() {
+    browser.get('app/index.html');
+    browser.getLocationAbsUrl().then(function(url) {
+        expect(url).toEqual('/phones');
+      });
+  });
+  
   });
 
 });
