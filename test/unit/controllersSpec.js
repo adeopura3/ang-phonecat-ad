@@ -3,10 +3,12 @@
 // controller tests
 describe('PhoneCat Controllers', function() {
 
+  beforeEach(module('phonecatApp'));
+  
   describe('PhoneListCtrl Controller', function() {
     var scope, phoneListController, $httpBackend;
     
-    beforeEach(module('phonecatApp'));
+    
     // Move the scope and controller to common actions
     // before each test
     // http backend is mock service for http
@@ -34,6 +36,27 @@ describe('PhoneCat Controllers', function() {
       expect(scope.orderProp).toBe("age");
     });
   
+  });
+  
+  describe('PhoneDetailCtrl', function(){
+    var scope, $httpBackend, phoneDetailController;
+
+    beforeEach(inject(function(_$httpBackend_, $rootScope, $routeParams, $controller) {
+      $httpBackend = _$httpBackend_;
+      $httpBackend.expectGET('phones/xyz.json').respond({name:'phone xyz'});
+
+      $routeParams.phoneId = 'xyz';
+      scope = $rootScope.$new();
+      phoneDetailController = $controller('PhoneDetailCtrl', {$scope: scope});
+    }));
+
+
+    it('should fetch phone detail', function() {
+      expect(scope.phone).toBeUndefined();
+      $httpBackend.flush();
+
+      expect(scope.phone).toEqual({name:'phone xyz'});
+    });
   });
 
 });

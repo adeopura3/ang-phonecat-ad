@@ -83,8 +83,27 @@ describe('PhoneCat Application', function() {
     browser.getLocationAbsUrl().then(function(url) {
         expect(url).toEqual('/phones');
       });
-  });
-  
+    });
   });
 
+  describe('Phone detail view', function() {
+
+    beforeEach(function() {
+      browser.get('app/index.html#/phones/nexus-s');
+    });
+
+
+    it('should display nexus-s page', function() {
+      expect(element(by.binding('phone.name')).getText()).toBe('Nexus S');
+    });
+    
+    
+     it('should display 4 images in the nexus-s page details', function() {
+      
+      expect(element.all(by.repeater('img in phone.images')).count()).toEqual(4);      
+    });
+  });
+  
+  
+     
 });
