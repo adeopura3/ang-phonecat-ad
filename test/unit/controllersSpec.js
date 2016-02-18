@@ -19,11 +19,11 @@ describe('PhoneCat controllers', function() {
 
 
     it('should create "phones" model with 2 phones fetched from xhr', function() {
-      expect(scope.phones).toBeUndefined();
       $httpBackend.flush();
-
-      expect(scope.phones).toEqual([{name: 'Nexus S'},
-                                   {name: 'Motorola DROID'}]);
+      expect (angular.equals(scope.phones, [{name: 'Nexus S'},
+                                   {name: 'Motorola DROID'}])).toBe(true);
+      
+      //expect(scope.phones).toEqual([{name: 'Nexus S'},{name: 'Motorola DROID'}]);
     });
 
 
@@ -54,10 +54,9 @@ describe('PhoneCat controllers', function() {
 
 
     it('should fetch phone detail', function() {
-      expect(scope.phone).toBeUndefined();
       $httpBackend.flush();
 
-      expect(scope.phone).toEqual(xyzPhoneData());
+      expect(angular.equals(scope.phone, (xyzPhoneData()))).toBe(true);
     });
   });
 });
